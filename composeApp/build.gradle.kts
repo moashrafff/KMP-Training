@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -26,10 +28,21 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+
+            linkerOpts.add("-lsqlite3")
         }
     }
     
     jvm("desktop")
+
+    sourceSets.commonMain {
+        //This is also not needed now in room 2.7.1
+        //kotlin.srcDir("build/generated/ksp")
+    }
+
+    sourceSets.iosMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
+    }
     
     sourceSets {
         val desktopMain by getting
@@ -47,6 +60,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -101,3 +117,27 @@ compose.desktop {
         }
     }
 }
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    listOf(
+        "kspAndroid",
+        "kspDesktop",
+        "kspIosSimulatorArm64",
+        "kspIosX64",
+        "kspIosArm64"
+    ).forEach {
+        add(it, libs.room.compiler)
+    }
+//    add("kspCommonMainMetadata", libs.room.compiler)
+//    add("kspAndroid", libs.room.compiler)
+}
+
+//tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+//    if (name != "kspCommonMainKotlinMetadata") {
+//        dependsOn("kspCommonMainKotlinMetadata")
+//    }
+//}
