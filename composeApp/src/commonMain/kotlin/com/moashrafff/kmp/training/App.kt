@@ -11,10 +11,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.moashraf.core.ReusableText
 import com.moashrafff.kmp.training.database.PeopleDao
-import dev.icerock.moko.permissions.PermissionState
-import dev.icerock.moko.permissions.compose.BindEffect
-import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+//import dev.icerock.moko.permissions.PermissionState
+//import dev.icerock.moko.permissions.compose.BindEffect
+//import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -25,43 +26,45 @@ fun App(
     MaterialTheme {
 //        val people by peopleDao.getPeople().collectAsState(initial = emptyList())
 //        val scope = rememberCoroutineScope()
-        val factory = rememberPermissionsControllerFactory()
-        val controller = remember(factory) {
-            factory.createPermissionsController()
-        }
+//        val factory = rememberPermissionsControllerFactory()
+//        val controller = remember(factory) {
+//            factory.createPermissionsController()
+//        }
 
-        BindEffect(permissionsController = controller)
+//        BindEffect(permissionsController = controller)
 
-        val viewmodel = viewModel { PermissionViewmodel(controller = controller) }
+//        val viewmodel = viewModel { PermissionViewmodel(controller = controller) }
 
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            when(viewmodel.state) {
-                PermissionState.Granted -> Text("Record Audio Permission Granted!")
-                PermissionState.DeniedAlways -> {
-                    Text("Permission was permanently denied!")
-                    Button(
-                        onClick = {
-                            controller.openAppSettings()
-                        },
-                        content = {
-                            Text("Go to Settings")
-                        }
-                    )
-                } else -> {
-                Button(
-                    onClick = {
-                        viewmodel.provideOrRequestRecordAudioPermission()
-                    },
-                    content = {
-                        Text("Request Permission")
-                    }
-                )
-                }
-            }
+            ReusableText()
+
+//            when(viewmodel.state) {
+//                PermissionState.Granted -> Text("Record Audio Permission Granted!")
+//                PermissionState.DeniedAlways -> {
+//                    Text("Permission was permanently denied!")
+//                    Button(
+//                        onClick = {
+//                            controller.openAppSettings()
+//                        },
+//                        content = {
+//                            Text("Go to Settings")
+//                        }
+//                    )
+//                } else -> {
+//                Button(
+//                    onClick = {
+//                        viewmodel.provideOrRequestRecordAudioPermission()
+//                    },
+//                    content = {
+//                        Text("Request Permission")
+//                    }
+//                )
+//                }
+//            }
 
         }
 
