@@ -15,7 +15,9 @@ class MainActivity : ComponentActivity() {
         val dao =  DBFactory(applicationContext).createDatabase().peopleDao()
 
         setContent {
-            App(batteryManager = remember { BatteryManager(applicationContext) }, peopleDao = dao)
+            App(
+//                batteryManager = remember { BatteryManager(applicationContext) }
+            )
         }
     }
 }
