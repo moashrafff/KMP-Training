@@ -27,7 +27,7 @@ runner = "1.5.2"
 core = "1.5.0"
 koin = "4.0.3"
 koin-compose = "4.0.3"
-navigationCompose = "2.8.0-alpha02"
+navigationCompose = "2.9.0-beta03"
 
 
 
